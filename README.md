@@ -1,75 +1,35 @@
-# miniAjax
-A mini Ajax library provides Ajax, jsonp and ready features for simple web applications.
 
-![miniAjax](https://www.moweide.com/miniAjax.png)
+<div align="center">
+    <h1><a href="https://www.elsenova.io/Echo/">Echo</a> - A Concentrated (ES6) library for Ajax requests.</h1>
+</div>
 
-## Browsers support
+<div align="center">
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+</div>
 
-| ![Chrome](https://raw.github.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png) | ![Firefox](https://raw.github.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png) | ![Safari](https://raw.github.com/alrra/browser-logos/master/src/safari/safari_48x48.png) | ![Opera](https://raw.github.com/alrra/browser-logos/master/src/opera/opera_48x48.png) | ![Edge](https://raw.github.com/alrra/browser-logos/master/src/edge/edge_48x48.png) | ![IE](https://raw.github.com/alrra/browser-logos/master/src/archive/internet-explorer_9-11/internet-explorer_9-11_48x48.png) |
-| ---------------------------------------- | ---------------------------------------- | ---------------------------------------- | ---------------------------------------- | ---------------------------------------- | ---------------------------------------- |
-| ✔                                        | ✔                                        | ✔                                        | ✔                                        | ✔                                             | ✔  
+## About
+Echo is a compact library for making Ajax requests, built off of <a href="https://github.com/WeideMo/miniAjax">WeideMo's MiniAjax</a> Weighing in at under <b>100 lines</b> of code, Echo provides a convenient interface for Ajax requests, both GET and POST. It also provides innate JSON parsing where possible. Echo was built in order to be used as a compact and intuitive Ajax library for development on the <a href="https://www.athos.io/">Atheos IDE</a>, however it's proved so valuable as to become it's own mini library. Echo returns the XMLHttpRequest in order to faciliate aborts, and encourage further customization. Only the URL is required in order to send an Echo; All other options are optional and the type defaults to <code>POST</code>.
 
-## Usage
+<a href="https://github.com/hlsiira/Echo" class="download">Download on Github</a>
 
-There are only 3 interfaces in miniAjax, including Ajax, jsonp and ready functions:
+## Features
+<p><strong>Pleasently Parsed: </strong>Echo automatically tries to parse JSON replies.</p>
+<p><strong>Crazily Condensed: </strong>The minified version is less than ~1K, roughly 500b gzipped.</p>
+<p><strong>Easily Extensible: </strong>Echo is easily modifyable to meet your needs.</p>
 
-### ajax
+Below is the typical structure for utilizing sending an Echo:
 
 ```javascript
-ajax({
-    url: "./testXhr.php",                       //links to server
-    type: "POST",                               //request method
-    data: { name: "WeideMo", age: 26 },         //request params
-    dataType: "json",                           //received dataType
-    success: function (response, xml) {
-        // do something when success
+echo({
+    url: "./testXhr.php",                // Destination URL
+    type: "POST",                        // Request Type: POST (default) or GET
+    data: { name: "WeideMo", age: 26 },  // Data sent to the server
+    timeout: 5000,						 // Time in Milliseconds
+    success: function (reply, httpResponseCode) {
+        // Function called on success
     },
-    fail: function (status) {
-        // do something when fail
+    failure: function (reply, httpResponseCode) {
+        // Function called on failure
     }
 });
 ```
-
-### jsonp
-
-```javascript
-jsonp({
-    url:"https://github.com/WeideMo/",  //links to server
-    callback:"callback",                //reception callback name negotiated with the backend-server
-    data:{id:"1000120"},                //request params
-    success:function(json){
-        // do something when success
-    },
-    fail:function(){
-        // do something when fail
-    },
-    time:10000                          //custom timeout
-})
-```
-
-### ready
-
-```javascript
-ready(function(){
-    // do something when page ready
-})
-```
-
-## Fetures
-
-### High coverage of browsers
-
-Almost support all of the browsers, even the original IE series.
-
-### light Weight
-
-The compressed version is less than 2K, if you use gzip, it will be less than 1K.
-
-### Pure
-
-MiniAjax is just the basic requirement to meet web development.It's only responsible for three things: `Ajax` , `jsonp` and `ready`.
-
-
-## More
-
-You can get more principles and usage ->[https://github.com/WeideMo/jsonp](https://github.com/WeideMo/jsonp)
