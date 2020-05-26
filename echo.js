@@ -1,7 +1,7 @@
 //////////////////////////////////////////////////////////////////////////////80
 // Echo
 //////////////////////////////////////////////////////////////////////////////80
-// Copyright (c) Atheos & Liam Siira (Atheos.io), distributed as-is and without
+// Copyright (c) Liam Siira (Siira.us), distributed as-is and without
 // warranty under the modified License: MIT - Hippocratic 1.2: firstdonoharm.dev
 // See [root]/license.md for more. This information must remain intact.
 //////////////////////////////////////////////////////////////////////////////80
@@ -28,7 +28,7 @@
 
 	'use strict';
 
-	function formatParams(data) {
+	function formatParams(data, random) {
 		var arr = [];
 		if (!data && typeof data !== 'object') return;
 		for (var name in data) {
@@ -42,8 +42,7 @@
 		options = options || {};
 		options.type = options.type || ((options.data) ? 'POST' : 'GET');
 
-
-		var params = formatParams(options.data);
+		var params = formatParams(options.data, options.random);
 		var xhr;
 
 		if (window.XMLHttpRequest) {
