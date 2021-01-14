@@ -85,5 +85,5 @@
 		return xhr;
 
 	};
-	return echo;
-});
+	global.echo = echo;
+})(this);
