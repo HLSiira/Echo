@@ -25,6 +25,9 @@ echo({
     type: "POST",                        // Request Type: POST (default) or GET
     data: { name: "WeideMo", age: 26 },  // Data sent to the server
     timeout: 5000,						 // Time in Milliseconds
+    settled: function (reply, httpResponseCode) {
+        // Function called on either success or failure
+    },    
     success: function (reply, httpResponseCode) {
         // Function called on success
     },

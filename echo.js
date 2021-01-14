@@ -1,9 +1,9 @@
 //////////////////////////////////////////////////////////////////////////////80
 // Echo
 //////////////////////////////////////////////////////////////////////////////80
-// Copyright (c) Liam Siira (Siira.us), distributed as-is and without
-// warranty under the modified License: MIT - Hippocratic 1.2: firstdonoharm.dev
-// See [root]/license.md for more. This information must remain intact.
+// Copyright (c) 2021 Liam Siira (liam@siira.io), distributed as-is and without
+// warranty under the MIT License. See [root]/license.md for more.
+// This information must remain intact.
 //////////////////////////////////////////////////////////////////////////////80
 // Notes:
 // Echo was built specifically for Atheos and as such may not be suitable for
@@ -14,46 +14,34 @@
 //												- Liam Siira
 //////////////////////////////////////////////////////////////////////////////80
 
-(function(root, factory) {
-	if (typeof define === 'function' && define.amd) {
-		define([], function() {
-			return factory(root);
-		});
-	} else if (typeof exports === 'object') {
-		module.exports = factory(root);
-	} else {
-		root.echo = factory(root);
-	}
-})(typeof global !== 'undefined' ? global : typeof window !== 'undefined' ? window : this, function(window) {
 
+(function(global) {
 	'use strict';
 
-	function formatParams(data, random) {
-		var arr = [];
-		if (!data && typeof data !== 'object') return;
-		for (var name in data) {
-			arr.push(encodeURIComponent(name) + '=' + encodeURIComponent(data[name]));
-		}
-		if (random) arr.push(("v=" + Math.random()).replace(".", ""));
-		return arr.join('&');
-	}
+	const echo = function(opt) {
+		if (!opt || !opt.url) return;
+		opt.type = opt.type || ((opt.data) ? 'POST' : 'GET');
 
-	const echo = function(options) {
-		options = options || {};
-		options.type = options.type || ((options.data) ? 'POST' : 'GET');
+		var xhr = new XMLHttpRequest(),
+			data = opt.data ? [] : null;
 
-		var params = formatParams(options.data, options.random);
-		var xhr;
-
-		if (window.XMLHttpRequest) {
-			xhr = new XMLHttpRequest();
-		} else {
-			xhr = new ActiveXObject('Microsoft.XMLHTTP');
+		if (opt.data && typeof opt.data === 'object') {
+			for (var name in opt.data) {
+				data.push(encodeURIComponent(name) + '=' + encodeURIComponent(opt.data[name]));
+			}
+			if (opt.rnd) data.push(("v=" + Math.random()).replace(".", ""));
+			data = data.join('&');
 		}
 
-		if (options.timeout) {
-			xhr.timeout = options.timeout;
-			xhr.ontimeout = options.failure;
+
+		if (opt.settled) {
+			opt.success = opt.settled;
+			opt.failure = opt.settled;
+		}
+
+		if (opt.timeout) {
+			xhr.timeout = opt.timeout;
+			xhr.ontimeout = opt.failure;
 		}
 
 		xhr.onload = function() {
@@ -62,26 +50,23 @@
 				data = JSON.parse(data);
 			} catch (e) {}
 			if (xhr.status >= 200 && xhr.status < 300) {
-				if (options.success) {
-					options.success(data, xhr.status);
+				if (opt.success) {
+					opt.success(data, xhr.status);
 				}
-			} else {
-				if (options.failure) {
-					options.failure(data, xhr.status);
-				}
+			} else if (opt.failure) {
+				opt.failure(data, xhr.status);
 			}
 		};
 
-		if (options.type === 'GET') {
-			params = params ? '?' + params : '';
-			xhr.open('GET', options.url + params, true);
-			xhr.send(null);
-		} else if (options.type === 'POST') {
-			xhr.open('POST', options.url, true);
+		if (opt.type === 'GET') {
+			data = data ? '?' + data : '';
+			xhr.open('GET', opt.url + data, true);
+		} else if (opt.type === 'POST') {
+			xhr.open('POST', opt.url, true);
 			xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-			xhr.send(params);
 		}
 
+		xhr.send(data);
 		return xhr;
 
 	};
