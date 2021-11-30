@@ -1,6 +1,6 @@
 
 <div align="center">
-    <h1><a href="https://github.com/hlsiira/Echo">Echo</a> - A concentrated (ES6) library for Ajax requests.</h1>
+    <h1><a href="https://github.com/hlsiira/Echo">Echo</a> </h1>
 </div>
 
 <div align="center">
@@ -16,6 +16,54 @@ Echo is a concentrated library for making Ajax requests, built off of <a href="h
 <p><code>Pleasently Parsed:</code> Echo automatically tries to parse JSON replies.</p>
 <p><code>Crazily Condensed:</code> The minified version is less than ~1K, roughly 500b gzipped.</p>
 <p><code>Easily Extensible:</code> Echo is easily modifyable to meet your needs.</p>
+
+## Usage
+<div class="argTable">
+      <table>
+         <tr>
+            <th>Argument</th>
+            <th>Required</th>
+            <th>Type</th>
+         </tr>
+         <tr>
+            <td>url</td>
+            <td><code>true</code></td>
+            <td><code>string</code></td>
+         </tr>
+         <tr>
+            <td>type</td>
+            <td><code>false</code></td>
+            <td><code>["POST" || "GET"]</code></td>
+         </tr>
+         <tr>
+            <td>data</td>
+            <td><code>false</code></td>
+            <td><code>object</code></td>
+         </tr>
+      </table>
+      <table>
+         <tr>
+            <th>Argument</th>
+            <th>Required</th>
+            <th>Type</th>
+         </tr>
+         <tr>
+            <td>timeout</td>
+            <td><code>false</code></td>
+            <td><code>integer</code></td>
+         </tr>
+         <tr>
+            <td>success</td>
+            <td><code>false</code></td>
+            <td><code>function</code></td>
+         </tr>
+         <tr>
+            <td>failure</td>
+            <td><code>false</code></td>
+            <td><code>function</code></td>
+         </tr>
+      </table>
+   </div>
 
 Below is the typical structure for utilizing sending an Echo:
 

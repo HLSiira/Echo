@@ -15,8 +15,10 @@
 //////////////////////////////////////////////////////////////////////////////80
 
 
-(function(global) {
+(function() {
 	'use strict';
+
+	// const serialize = obj => Object.keys(obj).map(key => encodeURIComponent(key) + '=' + encodeURIComponent(obj[key])).join('&');
 
 	const echo = function(opt) {
 		if (!opt || !opt.url) return;
@@ -51,10 +53,10 @@
 			} catch (e) {}
 			if (xhr.status >= 200 && xhr.status < 300) {
 				if (opt.success) {
-					opt.success(data, xhr.status);
+					opt.success(xhr.status, data);
 				}
 			} else if (opt.failure) {
-				opt.failure(data, xhr.status);
+				opt.failure(xhr.status, data);
 			}
 		};
 
@@ -68,7 +70,6 @@
 
 		xhr.send(data);
 		return xhr;
-
 	};
 	global.echo = echo;
 })(this);
