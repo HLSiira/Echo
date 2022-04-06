@@ -14,13 +14,12 @@
 //												- Liam Siira
 //////////////////////////////////////////////////////////////////////////////80
 
-
 (function() {
 	'use strict';
 
-	// const serialize = obj => Object.keys(obj).map(key => encodeURIComponent(key) + '=' + encodeURIComponent(obj[key])).join('&');
+	let headers = {};
 
-	const echo = function(opt) {
+	function echo(opt) {
 		if (!opt || !opt.url) return;
 		opt.type = opt.type || ((opt.data) ? 'POST' : 'GET');
 
@@ -35,7 +34,6 @@
 			data = data.join('&');
 		}
 
-
 		if (opt.settled) {
 			opt.success = opt.settled;
 			opt.failure = opt.settled;
@@ -46,17 +44,27 @@
 			xhr.ontimeout = opt.failure;
 		}
 
-		xhr.onload = function() {
+		xhr.onreadystatechange = function() {
+			if (xhr.readyState !== 4) return; // not complete
+
+			// Try to parse JSON data
 			var data = xhr.responseText;
 			try {
 				data = JSON.parse(data);
+
+				if ("debug" in data) {
+					console.log(data.debug);
+					delete data.debug;
+				}
 			} catch (e) {}
+
+			// Call the relevant callback function
 			if (xhr.status >= 200 && xhr.status < 300) {
 				if (opt.success) {
-					opt.success(xhr.status, data);
+					opt.success(data, xhr.status);
 				}
 			} else if (opt.failure) {
-				opt.failure(xhr.status, data);
+				opt.failure(data, xhr.status);
 			}
 		};
 
@@ -68,8 +76,15 @@
 			xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 		}
 
+		for (const s in headers) {
+			xhr.setRequestHeader(s, headers[s]);
+		}
+
 		xhr.send(data);
 		return xhr;
-	};
-	global.echo = echo;
-})(this);
+	}
+
+	echo.setHeaders = (opt) => headers = opt;
+
+	window.echo = echo;
+})();

@@ -68,6 +68,14 @@ Echo is a concentrated library for making Ajax requests, built off of <a href="h
 Below is the typical structure for utilizing sending an Echo:
 
 ```javascript
+
+document.addEventListener('DOMContentLoaded', function() {
+	'use strict';
+	echo.setHeaders({
+		'x-csrf-token': '<?php echo(CSRFTOKN) ?>'
+	});
+});
+
 echo({
     url: "./testXhr.php",                // Destination URL
     type: "POST",                        // Request Type: POST (default) or GET
